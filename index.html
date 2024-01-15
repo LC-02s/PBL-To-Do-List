@@ -272,7 +272,7 @@
                 }
             });
             listInput.addEventListener('focus', (e) => {
-                if (listInput.value === '') {
+                if (Number(listLengthTxt.textContent) <= 0 && listInput.value === '') {
                     listInput.parentNode.classList.add('area-main__inputBox--tooltip');
                 }
             });
