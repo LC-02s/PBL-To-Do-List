@@ -101,12 +101,12 @@ function changeListState(e) {
 
     // 함수를 실행한 아이템이 속한 배열 추출
     const changeStorageKey = isChecked ? 'activeList' : 'passiveList';
-    const readChangeListArr = JSON.parse(window.localStorage.getItem(changeStorageKey));
+    const readChangeListArr = JSON.parse(window.localStorage.getItem(changeStorageKey)) ?? [];
     const changeListArr = [...readChangeListArr];
 
     // 함수를 실행한 아이템을 추출 후 넣을 배열
     const targetStorageKey = isChecked ? 'passiveList' : 'activeList';
-    const readTargetListArr = JSON.parse(window.localStorage.getItem(targetStorageKey));
+    const readTargetListArr = JSON.parse(window.localStorage.getItem(targetStorageKey)) ?? [];
     const targetListArr = [...readTargetListArr];
 
     // 함수를 실행한 아이템 추출 & 상태 변경 & 새 배열에 추가
