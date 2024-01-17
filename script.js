@@ -93,35 +93,37 @@ function deleteList(e) {
 }
 
 function changeListState(e) {
-    setTimeout(() => loadList(), 600);
-
-    const targetItem = this.parentNode.parentNode.parentNode;
-    const isChecked = this.checked; // true : 리스트 내림, false : 다시 올림
-    const itemIdx = Number(targetItem.dataset.index);
-
-    // 함수를 실행한 아이템이 속한 배열 추출
-    const changeStorageKey = isChecked ? 'activeList' : 'passiveList';
-    const readChangeListArr = JSON.parse(window.localStorage.getItem(changeStorageKey)) ?? [];
-    const changeListArr = [...readChangeListArr];
-
-    // 함수를 실행한 아이템을 추출 후 넣을 배열
-    const targetStorageKey = isChecked ? 'passiveList' : 'activeList';
-    const readTargetListArr = JSON.parse(window.localStorage.getItem(targetStorageKey)) ?? [];
-    const targetListArr = [...readTargetListArr];
-
-    // 함수를 실행한 아이템 추출 & 상태 변경 & 새 배열에 추가
-    const changeItem = changeListArr.splice(itemIdx, 1);
-    changeItem[0].state = !changeItem[0].state;
-    targetListArr.push(changeItem[0]);
-
-    // 새로운 배열 개수가 1개 이상일 시 시간 순 정렬 & 인덱스 초기화 & 배열 저장
-    if (targetListArr.length > 1) targetListArr.sort((a, b) => new Date(a.indexTime) - new Date(b.indexTime));
-    targetListArr.forEach((el, idx) => el.index = idx);
-    window.localStorage.setItem(targetStorageKey, JSON.stringify(targetListArr));
-
-    // 기존 배열 인덱스 정렬 및 저장
-    changeListArr.forEach((el, idx) => el.index = idx);
-    window.localStorage.setItem(changeStorageKey, JSON.stringify(changeListArr));
+    this.disabled = true;
+    setTimeout(() => {
+        const targetItem = this.parentNode.parentNode.parentNode;
+        const isChecked = this.checked; // true : 리스트 내림, false : 다시 올림
+        const itemIdx = Number(targetItem.dataset.index);
+    
+        // 함수를 실행한 아이템이 속한 배열 추출
+        const changeStorageKey = isChecked ? 'activeList' : 'passiveList';
+        const readChangeListArr = JSON.parse(window.localStorage.getItem(changeStorageKey)) ?? [];
+        const changeListArr = [...readChangeListArr];
+    
+        // 함수를 실행한 아이템을 추출 후 넣을 배열
+        const targetStorageKey = isChecked ? 'passiveList' : 'activeList';
+        const readTargetListArr = JSON.parse(window.localStorage.getItem(targetStorageKey)) ?? [];
+        const targetListArr = [...readTargetListArr];
+    
+        // 함수를 실행한 아이템 추출 & 상태 변경 & 새 배열에 추가
+        const changeItem = changeListArr.splice(itemIdx, 1);
+        changeItem[0].state = !changeItem[0].state;
+        targetListArr.push(changeItem[0]);
+    
+        // 새로운 배열 개수가 1개 이상일 시 시간 순 정렬 & 인덱스 초기화 & 배열 저장
+        if (targetListArr.length > 1) targetListArr.sort((a, b) => new Date(a.indexTime) - new Date(b.indexTime));
+        targetListArr.forEach((el, idx) => el.index = idx);
+        window.localStorage.setItem(targetStorageKey, JSON.stringify(targetListArr));
+    
+        // 기존 배열 인덱스 정렬 및 저장
+        changeListArr.forEach((el, idx) => el.index = idx);
+        window.localStorage.setItem(changeStorageKey, JSON.stringify(changeListArr));
+        loadList();
+    }, 600);
 }
 
 function clearList() {
