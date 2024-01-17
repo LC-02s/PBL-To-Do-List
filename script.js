@@ -93,8 +93,11 @@ function deleteList(e) {
 }
 
 function changeListState(e) {
-    const checkEls = document.querySelectorAll('input[type="checkbox"]');
-    checkEls.forEach(checkEl => checkEl.disabled = true);
+    // 모든 체크박스 요소 비활성화
+    listContainer
+        .querySelectorAll('input[type="checkbox"]')
+        .forEach(checkEl => checkEl.disabled = true);
+
     setTimeout(() => {
         const targetItem = this.parentNode.parentNode.parentNode;
         const isChecked = this.checked; // true : 리스트 내림, false : 다시 올림
@@ -124,7 +127,7 @@ function changeListState(e) {
         changeListArr.forEach((el, idx) => el.index = idx);
         window.localStorage.setItem(changeStorageKey, JSON.stringify(changeListArr));
         loadList();
-    }, 600);
+    }, 500);
 }
 
 function clearList() {
