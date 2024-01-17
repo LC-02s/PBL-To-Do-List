@@ -93,7 +93,8 @@ function deleteList(e) {
 }
 
 function changeListState(e) {
-    this.disabled = true;
+    const checkEls = document.querySelectorAll('input[type="checkbox"]');
+    checkEls.forEach(checkEl => checkEl.disabled = true);
     setTimeout(() => {
         const targetItem = this.parentNode.parentNode.parentNode;
         const isChecked = this.checked; // true : 리스트 내림, false : 다시 올림
