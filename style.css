@@ -69,7 +69,7 @@ body {position: relative; display: flex; justify-content: center; align-items: c
 .area-main__ctsItemTitle > input {display: block; width: 100%; height: auto; padding: 8px; border: 1px solid var(--grayscale-300); font-size: 16px; font-weight: 500; color: var(--grayscale-800); white-space: nowrap; text-overflow: ellipsis; overflow: hidden; border-radius: 4px; background-color: var(--brand-white); outline: none; transition: all 0.2s;}
 .area-main__ctsItemTitle > input:focus {border-color: var(--ui-information);}
 .area-main__ctsItemTitle > input:disabled {padding: 0px; border: none; border-radius: 0px; background-color: transparent;}
-.area-main__ctsItem--checked .area-main__ctsItemTitle {color: var(--grayscale-500); text-decoration: line-through;}
+.area-main__ctsItem--checked .area-main__ctsItemTitle > input:disabled {color: var(--grayscale-500); text-decoration: line-through;}
 .area-main__ctsItemTime {display: inline-block; margin-right: 12px; font-size: 14px; font-weight: 400; color: var(--grayscale-500); letter-spacing: -0.25px; white-space: nowrap;}
 .area-main__ctsItemDelete,
 .area-main__ctsItemModify {display: flex; justify-content: center; align-items: center; margin-left: 6px;}
