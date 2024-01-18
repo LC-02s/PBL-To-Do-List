@@ -14,10 +14,13 @@ function listTemplate(state, item) {
                             <path d="M 0 16 V 56 A 8 8 90 0 0 8 64 H 56 A 8 8 90 0 0 64 56 V 8 A 8 8 90 0 0 56 0 H 8 A 8 8 90 0 0 0 8 V 16 L 32 48 L 64 16 V 8 A 8 8 90 0 0 56 0 H 8 A 8 8 90 0 0 0 8 V 56 A 8 8 90 0 0 8 64 H 56 A 8 8 90 0 0 64 56 V 16" pathLength="575.0541381835938" class="path"></path>
                         </svg>
                     </label>
-                    <h3 class="area-main__ctsItemTitle">${item.title ?? 'list title'}</h3>
+                    <h3 class="area-main__ctsItemTitle">
+                        <input type="text" value="${item.title ?? 'list title'}" disabled>
+                    </h3>
                 </div>
                 <div class="area-main__ctsItemRight">
                     <p class="area-main__ctsItemTime">${item.time ?? 'created time'}</p>
+                    <button class="area-main__ctsItemModify" type="button" role="button"><span class="material-icons">edit</span></button>
                     <button class="area-main__ctsItemDelete" type="button" role="button"><span class="material-icons">delete</span></button>
                 </div>
             </li>
@@ -32,14 +35,33 @@ function loadList() {
     listContainer.innerHTML = `<div class="area-main__ctsLoaderBox"><div class="area-main__ctsLoader"></div></div>`;
 
     function uiEventBinding() {
-        const deleteBtns = listContainer.querySelectorAll(".area-main__ctsItemDelete");
-        const checkBoxs = listContainer.querySelectorAll('input[type="checkbox"]');
-        const checkLabels = listContainer.querySelectorAll(".area-main__ctsItemChk");
-        deleteBtns.forEach(el => el.addEventListener('click', deleteList));
-        checkBoxs.forEach(el => el.addEventListener('change', changeListState));
-        checkLabels.forEach(el => el.addEventListener('keydown', (e) => {
-            if (e.keyCode == 13) el.children[0].click();
-        }));
+        listContainer // DeleteBtns
+            .querySelectorAll(".area-main__ctsItemDelete")
+            .forEach(el => el.addEventListener('click', deleteList));
+        listContainer // CheckBoxs
+            .querySelectorAll('input[type="checkbox"]')
+            .forEach(el => el.addEventListener('change', changeListState));
+        listContainer // CheckLabels
+            .querySelectorAll(".area-main__ctsItemChk")
+            .forEach(el => el.addEventListener('keydown', e => e.keyCode == 13 ? el.children[0].click() : undefined));
+        listContainer // ModifyBtns
+            .querySelectorAll('.area-main__ctsItemModify')
+            .forEach(el => {
+                el.addEventListener('click', () => {
+                    const targetItem = el.parentNode.parentNode.querySelector('input[type="text"]');
+                    targetItem.disabled = false;
+                    targetItem.focus();
+                })
+            });
+        listContainer // textInputs
+            .querySelectorAll('input[type="text"]')
+            .forEach(el => {
+                el.addEventListener('input', () => el.setAttribute('value', el.value))
+                el.addEventListener('keydown', e => {
+                    if (e.keyCode == 13) modifyList(el);
+                    else if (e.keyCode == 27) cancelModifyList(el);
+                });
+            });
     }
 
     if (activeListArr.length !== 0) {
@@ -78,7 +100,7 @@ function addList() {
     } else alert('이름을 입력해주세요');
 }
 
-function deleteList(e) {
+function deleteList() {
     const targetItem = this.parentNode.parentNode;
     const itemState = targetItem.classList.contains('area-main__ctsItem--checked');
     const targetStorageKey = itemState ? 'passiveList' : 'activeList';
@@ -92,7 +114,35 @@ function deleteList(e) {
     loadList();
 }
 
-function changeListState(e) {
+function modifyList(el) {
+    const targetItem = el.parentNode.parentNode.parentNode;
+    const itemState = targetItem.classList.contains('area-main__ctsItem--checked');
+    const targetStorageKey = itemState ? 'passiveList' : 'activeList';
+    const readListArr = JSON.parse(window.localStorage.getItem(targetStorageKey));
+    const targetListArr = [...readListArr];
+    const itemIdx = Number(targetItem.dataset.index);
+
+    targetListArr[itemIdx].title = el.value;
+    window.localStorage.setItem(targetStorageKey, JSON.stringify(targetListArr));
+    loadList();
+}
+
+function cancelModifyList(el) {
+    const targetItem = el.parentNode.parentNode.parentNode;
+    const itemState = targetItem.classList.contains('area-main__ctsItem--checked');
+    const targetStorageKey = itemState ? 'passiveList' : 'activeList';
+    const readListArr = JSON.parse(window.localStorage.getItem(targetStorageKey));
+    const targetListArr = [...readListArr];
+    const itemIdx = Number(targetItem.dataset.index);
+    const resetValue = targetListArr[itemIdx].title;
+
+    el.setAttribute('value', resetValue); 
+    el.value = resetValue;
+    el.disabled = true;
+    el.blur();
+}
+
+function changeListState() {
     // 모든 체크박스 요소 비활성화
     listContainer
         .querySelectorAll('input[type="checkbox"]')

@@ -63,16 +63,24 @@ body {position: relative; display: flex; justify-content: center; align-items: c
 .area-main__ctsItem {display: flex; flex-flow: row nowrap; justify-content: space-between; align-items: center; padding: 12px; border: 1px solid var(--grayscale-200); border-radius: 8px;}
 .area-main__ctsItem + .area-main__ctsItem {margin: 8px 0px 0px;}
 .area-main__ctsItem--checked {border-color: var(--grayscale-100); background-color: var(--grayscale-100);}
-.area-main__ctsItemLeft {display: flex; justify-content: flex-start; align-items: center; max-width: calc(100% - 160px); margin-right: 24px;}
+.area-main__ctsItemLeft {display: flex; justify-content: flex-start; align-items: center; width: calc(100% - 200px);}
 .area-main__ctsItemRight {display: flex; justify-content: flex-end; align-items: center;}
-.area-main__ctsItemTitle {display: block; height: auto; font-size: 16px; font-weight: 500; color: var(--grayscale-800); white-space: nowrap; text-overflow: ellipsis; overflow: hidden;}
+.area-main__ctsItemTitle {display: block; width: 100%; height: auto;}
+.area-main__ctsItemTitle > input {display: block; width: 100%; height: auto; padding: 8px; border: 1px solid var(--grayscale-300); font-size: 16px; font-weight: 500; color: var(--grayscale-800); white-space: nowrap; text-overflow: ellipsis; overflow: hidden; border-radius: 4px; background-color: var(--brand-white); outline: none; transition: all 0.2s;}
+.area-main__ctsItemTitle > input:focus {border-color: var(--ui-information);}
+.area-main__ctsItemTitle > input:disabled {padding: 0px; border: none; border-radius: 0px; background-color: transparent;}
 .area-main__ctsItem--checked .area-main__ctsItemTitle {color: var(--grayscale-500); text-decoration: line-through;}
-.area-main__ctsItemTime {display: inline-block; margin-right: 6px; font-size: 14px; font-weight: 400; color: var(--grayscale-500); letter-spacing: -0.25px; white-space: nowrap;}
-.area-main__ctsItemDelete {display: flex; justify-content: center; align-items: center;}
-.area-main__ctsItemDelete .material-icons {font-size: 24px; color: var(--grayscale-400); transition: color 0.2s;}
+.area-main__ctsItemTime {display: inline-block; margin-right: 12px; font-size: 14px; font-weight: 400; color: var(--grayscale-500); letter-spacing: -0.25px; white-space: nowrap;}
+.area-main__ctsItemDelete,
+.area-main__ctsItemModify {display: flex; justify-content: center; align-items: center; margin-left: 6px;}
+.area-main__ctsItemDelete .material-icons,
+.area-main__ctsItemModify .material-icons {font-size: 24px; color: var(--grayscale-400); transition: color 0.2s;}
 .area-main__ctsItemDelete:hover .material-icons,
 .area-main__ctsItemDelete:active .material-icons,
 .area-main__ctsItemDelete:focus .material-icons {color: var(--ui-warning);}
+.area-main__ctsItemModify:hover .material-icons,
+.area-main__ctsItemModify:active .material-icons,
+.area-main__ctsItemModify:focus .material-icons {color: var(--ui-caution);}
 
 .area-main__ctsItemChk {position: relative; display: flex; justify-content: center; align-items: center; width: 24px; height: 24px; margin-right: 12px; font-size: 9px; cursor: pointer;}
 .area-main__ctsItemChk input {position: absolute; width: 1px; height: 1px; visibility: hidden; opacity: 0;}
