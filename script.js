@@ -69,8 +69,8 @@ function addList() {
         listItemObj.state = true;
         listItemObj.index = activeListArr.length;
         listItemObj.title = listInput.value;
-        listItemObj.indexTime = new Date();
-        listItemObj.time = new Intl.DateTimeFormat('ko-KR', timeFormatOpt).format(listItemObj.indexTime);
+        listItemObj.createdAt = new Date().getTime();
+        listItemObj.time = new Intl.DateTimeFormat('ko-KR', timeFormatOpt).format(listItemObj.createdAt);
 
         window.localStorage.setItem('activeList', JSON.stringify([...activeListArr, listItemObj]));
         loadList();
@@ -119,7 +119,7 @@ function changeListState(e) {
         targetListArr.push(changeItem[0]);
     
         // 새로운 배열 개수가 1개 이상일 시 시간 순 정렬 & 인덱스 초기화 & 배열 저장
-        if (targetListArr.length > 1) targetListArr.sort((a, b) => new Date(a.indexTime) - new Date(b.indexTime));
+        if (targetListArr.length > 1) targetListArr.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
         targetListArr.forEach((el, idx) => el.index = idx);
         window.localStorage.setItem(targetStorageKey, JSON.stringify(targetListArr));
     
